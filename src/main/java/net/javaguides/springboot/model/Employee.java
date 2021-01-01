@@ -1,21 +1,31 @@
 package net.javaguides.springboot.model;
 
+import java.io.Serializable;
+
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
 
 @Entity
 @Table(name = "employees")
-public class Employee {
+public class Employee implements Serializable{
+	
+	private static final long serialVersionUID = 1L;
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 
+	@NotBlank(message = "First name is required")
 	@Column(name = "firstName")
 	private String firstName;
 
 
+	@NotBlank(message = "Last name is required")
 	@Column(name = "lastName")
 	private String lastName;
 
+	@Email(message = "Email should be valid")
 	@Column(name = "email")
 	private String email;
 
