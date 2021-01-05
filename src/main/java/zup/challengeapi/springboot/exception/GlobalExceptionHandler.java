@@ -1,4 +1,4 @@
-package net.javaguides.springboot.exception;
+package zup.challengeapi.springboot.exception;
 
 import java.util.Date;
 
@@ -20,6 +20,12 @@ public class GlobalExceptionHandler {
 	public ResponseEntity<?> globalExceptionHandler(Exception ex, WebRequest request){
 		ErrorDetails errorDetails = new ErrorDetails(new Date(), ex.getMessage(), request.getDescription(false));
 		return new ResponseEntity<>(errorDetails, HttpStatus.INTERNAL_SERVER_ERROR);
+	}
+	
+	@ExceptionHandler(ConstraintException.class)
+	public ResponseEntity<?> constraintException(ConstraintException ex, WebRequest request) {
+		ErrorDetails errorDetails = new ErrorDetails(new Date(), ex.getMessage(), request.getDescription(false));
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorDetails);
 	}
 	
 }

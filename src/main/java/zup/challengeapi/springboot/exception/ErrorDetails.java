@@ -1,4 +1,4 @@
-package net.javaguides.springboot.exception;
+package zup.challengeapi.springboot.exception;
 
 import java.util.Date;
 
