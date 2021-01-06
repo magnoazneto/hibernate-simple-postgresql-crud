@@ -33,7 +33,6 @@ public class PersonService {
 		try {
 			return this.personRepository.save(person);
 		}
-		
 		catch(DataIntegrityViolationException e) {
 			throw new ConstraintException("Constraint Problem - " + e.getMostSpecificCause().getMessage());
 		}
@@ -53,11 +52,11 @@ public class PersonService {
 			if(personDetails.getEmail() != null && personDetails.getEmail() != "") {
 				person.setEmail(personDetails.getEmail());
 			}
-			if(personDetails.getFirstName() != null && personDetails.getFirstName() != "") {
-				person.setFirstName(personDetails.getFirstName());
+			if(personDetails.getName() != null && personDetails.getName() != "") {
+				person.setName(personDetails.getName());
 			}
-			if(personDetails.getLastName() != null && personDetails.getLastName() != "") {
-				person.setLastName(personDetails.getLastName());
+			if(personDetails.getBirthday() != null) {
+				person.setBirthday(personDetails.getBirthday());
 			}
 
 			return this.personRepository.save(person);

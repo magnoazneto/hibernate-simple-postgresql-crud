@@ -1,10 +1,16 @@
 package zup.challengeapi.springboot.model;
 
+import java.time.LocalDate;
+
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Past;
 
 import org.hibernate.validator.constraints.br.CPF;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 import zup.challengeapi.springboot.validation.PostValidation;
 import zup.challengeapi.springboot.validation.PutValidation;
@@ -18,12 +24,8 @@ public class Person {
 	private long id;
 	
 	@Column(name = "firstName")
-	@NotBlank(message = "First name is required", groups = PostValidation.class)
-	private String firstName;
-
-	@Column(name = "lastName")
-	@NotBlank(message = "Last name is required", groups = PostValidation.class)
-	private String lastName;
+	@NotBlank(message = "Name is required", groups = PostValidation.class)
+	private String name;
 
 	@Column(name = "email", unique = true)
 	@NotBlank(message = "Email is required", groups = PostValidation.class)
@@ -34,13 +36,20 @@ public class Person {
 	@NotBlank(message = "CPF is required", groups = PostValidation.class)
 	@CPF(message = "CPF should be valid", groups = PostValidation.class)
 	private String cpf;
+	
+	
+	@Column(name = "birthday")
+	@Past(message = "Birthday should be valid", groups = {PostValidation.class, PutValidation.class})
+	@NotNull(message = "Birthday is required", groups = PostValidation.class)
+	@JsonFormat(pattern = "yyyy-MM-dd")
+	private LocalDate birthday;
 
-	public Person(String firstName, String lastName, String email, String cpf) {
+	public Person(String name, String email, String cpf, LocalDate birthday) {
 		super();
-		this.firstName = firstName;
-		this.lastName = lastName;
+		this.name = name;
 		this.email = email;
 		this.cpf = cpf;
+		this.birthday = birthday;
 	}
 	
 	public Person(){
@@ -56,20 +65,13 @@ public class Person {
 		this.id = id;
 	}
 
-	public String getFirstName() {
-		return firstName;
+
+	public String getName() {
+		return name;
 	}
 
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
-	}
-
-	public String getLastName() {
-		return lastName;
-	}
-
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public String getEmail() {
@@ -82,6 +84,14 @@ public class Person {
 
 	public String getCpf() {
 		return cpf;
+	}
+
+	public LocalDate getBirthday() {
+		return birthday;
+	}
+
+	public void setBirthday(LocalDate birthday) {
+		this.birthday = birthday;
 	}
 
 }
